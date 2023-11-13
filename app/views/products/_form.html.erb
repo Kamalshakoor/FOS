@@ -1,0 +1,55 @@
+<div class="container mt-5 mb-5">
+    <div class="row">
+        <div class="col-12">
+                <% if @product.errors.any? %>
+                    <h2>Following errors prevented the article from being saved
+                    </h2>
+                    <ul>
+                        <% @product.errors.full_messages.each do |msg| %>
+                            <li class='text-danger'><%= msg %></li>
+                         <% end %>
+                    </ul>
+                <% end %>
+        </div>
+    </div>
+        <div class="row">
+        <div class="col-sm-6 border offset-sm-3 px-3 py-4">
+        <%= form_for @product,html: { multipart: true }  do |f| %>
+            <% if action_name == "new" %>
+            <h1 class='text-center'>Add New Product</h1>
+            <% else %>
+            <h1 class='text-center'>Edit Product</h1>
+            <% end %>
+            <hr />
+            <div class='form-group mb-3'>
+                <%= f.label :name, class:"col-form-label" %> <small class='text-danger'>*</small>
+                <div>
+                    <%= f.text_field :name,class:'form-control', required: true %>
+                </div>
+            </div>
+            <div class='form-group mb-3'>
+                <%= f.label :description, class:"col-form-label" %> <small class='text-danger'>*</small>
+                <div>
+                    <%= f.text_area :description,class:'form-control', rows:5, required: true %>
+                </div>
+            </div>
+            <div class='form-group mb-3'>
+                <%= f.label :price, class:"col-form-label" %> <small class='text-danger'>*</small>
+                <div>
+                    <%= f.number_field :price,class:'form-control', required: true %>
+                </div>
+            </div>
+            <div class='form-group mb-3'>
+                <%= f.label :image, class:"col-form-label", required: true %> <small class='text-danger'>*</small>
+                <div>
+                    <%= f.file_field :image,class:'form-control', required: @product.new_record? %>
+                    <small class='text-danger'>Upload product image</small>
+                </div>
+            </div>
+            <div>
+                <%= f.submit class:"form-control btn btn-outline-success" %>
+            </div>
+        <% end %>
+        </div>
+    </div>
+</div>

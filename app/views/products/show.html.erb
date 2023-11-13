@@ -1,0 +1,17 @@
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-sm-3 ">
+         <%= image_tag @product.image, class:'img img-fluid border shadow'%>
+        </div>
+        <div class="col-sm-6 ">
+            <h5><%= @product.name %></h5>
+            <p><%= @product.description %></p>
+        </div>
+        <div class="col-sm-3 text-center ">
+            <%= link_to "Edit", edit_product_path(@product), class:'btn btn-outline-warning' %>
+             <%= link_to "Delete", @product, class:'btn btn-outline-danger', method: :delete, data: { confirm: 'Are you sure?' } %>
+
+        </div>
+
+    </div>
+</div>
