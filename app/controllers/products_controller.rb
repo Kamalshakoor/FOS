@@ -2,6 +2,7 @@ class ProductsController < ApplicationController
     before_action :set_params, only: [:edit, :update, :show, :destory] 
 
     def index 
+        @product = Product.all.order('created_at DESC')
     end
     def show 
     end
