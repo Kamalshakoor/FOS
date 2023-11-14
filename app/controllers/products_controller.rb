@@ -3,9 +3,11 @@ class ProductsController < ApplicationController
     before_action :authenticate_user!,only: [:create,:index,:edit, :update, :destroy]
     before_action :authorize_admin, only: [:new,:create, :edit, :update, :destroy, :index]
 
-
+    def home 
+        @products = Product.all.order('created_at DESC')
+    end
     def index 
-        @product = Product.all.order('created_at DESC')
+        @products = Product.all.order('created_at DESC')
     end
     def show 
     end
