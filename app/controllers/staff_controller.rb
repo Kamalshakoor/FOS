@@ -1,6 +1,7 @@
 class StaffController <  ApplicationController
+    include CustomAuthorization
     before_action :authenticate_user!
-    before_action :authenticate_admin, only: [:new, :create, :index, :destroy]
+    before_action :authorize_admin, only: [:new, :create, :index, :destroy]
   
     # list staff members
     def index
@@ -42,12 +43,5 @@ class StaffController <  ApplicationController
       params.require(:user).permit(:name, :email, :password, :password_confirmation)
     end
   
-    def authenticate_admin
-      # check if the user is an admin
-      unless current_user.admin?
-        flash[:alert] = "You are not authorized to perform this action."
-        redirect_to root_path
-      end
-    end
   end
   

@@ -1,0 +1,27 @@
+<div class="container mt-5">
+  <h1>Your Cart</h1>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Image</th>
+        <th>Product Name</th>
+        <th>Quantity</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @cart_entries.each do |cart_entry| %>
+        <% product = Product.find(cart_entry.product_id) %>
+        <tr>
+          <td><%= image_tag product.image, class: 'w-25 h-25' %></td>
+          <td><%= product.name %></td>
+          <td><%= cart_entry.quantity %></td>
+          <td>
+            <%= link_to 'Remove', cart_path, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= link_to 'Back to Home', root_path, class: 'btn btn-primary' %>
+</div>
