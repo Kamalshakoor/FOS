@@ -1,29 +1,39 @@
-<h1>Create Staff Member</h1>
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-sm-6 offset-sm-3 border py-4">
+      <h1 class='text-center'>Create Staff Member</h1>
+      <hr />
 
-<%= form_with(model: @staff_member, url: staff_index_path, method: :post) do |form| %>
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
+        <%= form_with(model: @staff_member, url: staff_index_path, method: :post) do |form| %>
+          <div class="field mb-3">
+            <%= form.label :name %>
+            <%= form.text_field :name ,class:'form-control', required: true %>
+          </div>
+
+          <div class="field mb-3">
+            <%= form.label :email %>
+            <%= form.email_field :email,class:'form-control', required: true %>
+          </div>
+
+          <div class="field mb-3">
+            <%= form.label :password %>
+            <%= form.password_field :password,class:'form-control', required: true %>
+          </div>
+
+          <div class="field mb-3">
+            <%= form.label :password_confirmation %>
+            <%= form.password_field :password_confirmation,class:'form-control', required: true %>
+          </div>
+
+          <div class="actions mb-3">
+            <%= form.submit 'Create Staff Member',class:'btn btn-outline-success' %>
+          </div>
+        <% end %>
+
+        <%= link_to 'Back to Staff List', staff_index_path %>
+
+    </div>
   </div>
+</div>
 
-  <div class="field">
-    <%= form.label :email %>
-    <%= form.email_field :email %>
-  </div>
 
-  <div class="field">
-    <%= form.label :password %>
-    <%= form.password_field :password %>
-  </div>
-
-  <div class="field">
-    <%= form.label :password_confirmation %>
-    <%= form.password_field :password_confirmation %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit 'Create Staff Member' %>
-  </div>
-<% end %>
-
-<%= link_to 'Back to Staff List', staff_index_path %>
