@@ -1,0 +1,35 @@
+<div class="container mt-3">
+  <div class="row">
+    <div class="col-sm-8 offset-sm-2 shadow py-4">
+      <h1 class="text-center">List of Staff Members</h1>
+      <hr />
+
+      <div class="d-flex justify-content-end mb-3">
+        <%= link_to "Add New Member", new_staff_path, class: 'btn btn-outline-info' %>
+      </div>
+
+      <div class="table-responsive border">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @staff_members.each do |staff_member| %>
+              <tr>
+                <td><%= staff_member.name %></td>
+                <td><%= staff_member.email %></td>
+                <td>
+                  <%= link_to 'Delete', staff_path(staff_member), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm' %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
