@@ -1,6 +1,6 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Navbar</a>
+        <%= link_to "Navbar", root_path, class:'navbar-brand' %>
         <button
             class="navbar-toggler"
             type="button"
@@ -14,41 +14,60 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
+                    <%= link_to "Home", root_path, class:'nav-link' %>
                 </li>
                 <% if user_signed_in? && current_user.admin? %>
                     <li class="nav-item">
                         <%= link_to "Products", products_path, class:'nav-link' %>
-                    </li>   
-                     <li class="nav-item">
+                    </li>
+                    <li class="nav-item">
                         <%= link_to "Staff", staff_index_path, class:'nav-link' %>
-                    </li>    
+                    </li>
                 <% end %>
-                    <% if user_signed_in? %>
-                    <li class="nav-item">
-                        <%= link_to "Logout", destroy_user_session_path, class:'nav-link btn btn-outline-danger', method: :delete %>
-                    </li>
-                    <li class="nav-item">
-                        <%= link_to "Cart", cart_path, class:'nav-link'%>
-                    </li>
+            </ul>
+            <% if user_signed_in? %>
+                <div class="d-flex align-items-center">
+                   <%= link_to cart_path do %>
+                        <i class="fa fa-shopping-cart fa-2x position-relative">
+                            <% if current_user.cart.present? %>
+                                <span class="position-absolute translate-middle" style="width: 10px; height: 10px; background-color: red; border-radius: 50%; right: -6px;"></span>
+                            <% end %>
+                        </i>
                     <% end %>
-                </ul>
-                <% if user_signed_in? %>
-                  <form class="d-flex" role="search">
-                    <input
-                        class="form-control me-2"
-                        type="search"
-                        placeholder="Search"
-                        aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit">Search</button>
-                    </form>
-                <% else %>
-                    <%= link_to "Signup", new_user_registration_path, class:'btn btn-outline-success' %>
-                     <%= link_to "Login", new_user_session_path, class:'btn btn-outline-success ms-2' %>
-                <% end %>
+                    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+                        <div class="container-fluid">
+                            <!-- ... Your existing navbar code ... -->
+                            <div class="dropdown me-5">
+                                <button
+                                    class="btn btn-secondary dropdown-toggle"
+                                    type="button"
+                                    id="dropdownMenuButton1"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    <%= current_user.name %>
+                                </button>
+                                <ul
+                                    class="dropdown-menu dropdown-menu-end"
+                                    aria-labelledby="dropdownMenuButton1">
+                                    <%= link_to "Edit Profile", edit_user_registration_path(current_user),
+                                    class:'dropdown-item' %>
+                                    <%= link_to "Orders", cart_path, class:'dropdown-item' %>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <%= link_to "Logout", destroy_user_session_path, class:'dropdown-item', method:
+                                    :delete %>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+
                 </div>
-            </div>
-        </nav>
+            <% else %>
+                <div class="d-flex align-items-center">
+                    <%= link_to "Signup", new_user_registration_path, class:'btn btn-outline-success
+                    me-2' %>
+                    <%= link_to "Login", new_user_session_path, class:'btn btn-outline-success' %>
+                </div>
+            <% end %>
+        </div>
+    </div>
+</nav>
