@@ -76,7 +76,7 @@ before_action :authenticate_user!
                 new_item.save
             end
             flash[:notice] = 'Product Added Successfully'
-            redirect_to root_path
+            redirect_to cart_path
         else
           flash[:notice] = 'Something Went Wrong. Try Again Later'
           redirect_to product_path(params[:product_id])

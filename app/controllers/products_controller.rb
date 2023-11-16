@@ -9,6 +9,7 @@ class ProductsController < ApplicationController
     end
     def index 
         @products = Product.all.order('created_at DESC')
+        @pagy,@product = pagy(@products,product: 1)
     end
     def show 
     end
