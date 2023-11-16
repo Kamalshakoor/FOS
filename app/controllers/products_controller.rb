@@ -1,4 +1,5 @@
 class ProductsController < ApplicationController
+    include CustomAuthorization
     before_action :set_params, only: [:edit, :update, :show, :destory] 
     before_action :authenticate_user!,only: [:create,:index,:edit, :update, :destroy]
     before_action :authorize_admin, only: [:new,:create, :edit, :update, :destroy, :index]
@@ -44,13 +45,6 @@ class ProductsController < ApplicationController
     end
 
     private
-
-        def authorize_admin
-            unless current_user.role == 'admin'
-              flash[:alert] = "You are not authorized to perform this action."
-              redirect_to root_path
-            end
-        end 
 
     def product_params
         params.require(:product).permit(:name,:description,:price,:image)

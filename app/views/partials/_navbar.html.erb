@@ -31,6 +31,9 @@
                     <li class="nav-item">
                         <%= link_to "Logout", destroy_user_session_path, class:'nav-link btn btn-outline-danger', method: :delete %>
                     </li>
+                    <li class="nav-item">
+                        <%= link_to "Cart", cart_path, class:'nav-link'%>
+                    </li>
                     <% end %>
                 </ul>
                 <% if user_signed_in? %>

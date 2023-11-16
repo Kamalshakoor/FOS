@@ -25,8 +25,16 @@
     <div class="col-md-4">
       <div class="border px-3 py-4">
         <h6 class="fst-italic text-center"><%= @product.name %></h6>
+
         <p class="text-center"><%= @product.price %>$</p>
-        <%= link_to "Add to cart", @product ,class:"btn btn-outline-primary form-control"%>
+        
+          <%= form_tag add_to_cart_path(@product), method: :post do %>
+            <div class="form-group">
+              <%= label_tag 'quantity', 'Quantity' %>
+              <%= number_field_tag 'quantity', 1, min: 1, class: 'form-control' %>
+            </div>
+            <%= submit_tag 'Add to Cart', class: 'btn btn-outline-success form-control mt-2' %>
+        <% end %>    
       </div>
     </div>
   </div>
