@@ -1,8 +1,30 @@
-<div class="container mt-5">
+<section class="hero-section">
+    <div class="container pt-5 pb-5">
+        <div class="row">
+            <div class="col-md-6 offset-md-3 pt-5" >
+                <h1 class="display-6">Order Delicious Food Online</h1>
+                <p class="lead">Discover a world of flavors at your doorstep</p>
+                <form class="mt-4">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search for your favorite dish">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary search-button" type="button">Search</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div> 
+</section>
+<svg class='wave' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#FF8C42" fill-opacity="1" d="M0,192L120,176C240,160,480,128,720,128C960,128,1200,160,1320,176L1440,192L1440,0L1320,0C1200,0,960,0,720,0C480,0,240,0,120,0L0,0Z"></path></svg>
+
+
+
+<div class="container products">
     <div class="row g-2">
-        <h3>Most Recent Products</h3>
+        <h1 class='text-center mb-5'>Most Recent Products</h1>
         <% @products.each do |product| %>
-            <div class="col-sm-4">
+            <div class="col-sm-6 col-md-4">
                 <div class="card shadow border">
                   <%= image_tag product.image, class:'img img-fluid card-img-top'%>
                   <div class="card-body">

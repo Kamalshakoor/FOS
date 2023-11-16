@@ -12,5 +12,42 @@
  */
  @import "bootstrap";
 
-//  Product show page css starts from here
 
+// homepage here section css starts from here
+.hero-section {
+    background: linear-gradient(to bottom, #FF5733, #FF8C42); /* Gradient background */
+    color: #fff;
+    text-align: center;
+    padding: 100px 0;
+}
+.search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.search-input {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.search-button {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+// products css starts from here
+.products{
+    margin-top: -20vh;
+}
+
+
+
+
+
+@media only screen and (max-width: 912px) {
+    .products{
+        margin-top: 0vh;
+    }
+    .wave{
+        margin-top: -2vh;
+    }
+  }
