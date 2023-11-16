@@ -61,7 +61,7 @@ before_action :authenticate_user!
             @cart = Cart.find_or_initialize_by(user_id: current_user.id)
 
         
-            # Check if the cart table already contain product for current user.
+            # Check if the cart table already contain product for current user
             existing_item = Cart.find_by(product_id: product.id, user_id: current_user.id)
         
             if existing_item
