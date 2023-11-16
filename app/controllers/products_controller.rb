@@ -5,11 +5,10 @@ class ProductsController < ApplicationController
     before_action :authorize_admin, only: [:new,:create, :edit, :update, :destroy, :index]
 
     def home 
-        @products = Product.all.order('created_at DESC')
+        @pagy, @products = pagy(Product.all.order('created_at DESC'), items: 15)
     end
     def index 
-        @products = Product.all.order('created_at DESC')
-        @pagy,@product = pagy(@products,product: 1)
+        @pagy, @products = pagy(Product.all.order('created_at DESC'), items: 10)
     end
     def show 
     end
