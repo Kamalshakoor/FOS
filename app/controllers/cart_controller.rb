@@ -89,4 +89,9 @@ before_action :authenticate_user!
         render 'show_cart'
     end 
 
+    def destroy 
+        cart_record = Cart.find(params[:id]) 
+        cart_record.delete
+        redirect_to cart_path
+    end
 end

@@ -25,7 +25,7 @@
                 <td><%= cart_entry.quantity %></td>
                 <td><%= cart_entry.quantity * product.price %>$</td>
                 <td>
-                  <%= link_to 'Remove', cart_path, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm' %>
+                  <%= link_to 'Remove', delete_cart_item_path(cart_entry), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm' %>
                 </td>
               </tr>
               <% subtotal += cart_entry.quantity * product.price %>
