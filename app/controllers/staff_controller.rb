@@ -5,7 +5,7 @@ class StaffController <  ApplicationController
   
     # list staff members
     def index
-        @staff_members = User.where(role: 'staff').order(created_at: :desc)
+        @pagy,@staff_members = pagy(User.where(role: 'staff').order(created_at: :desc),items: 10)
     end
   
     # display the staff creation form

@@ -17,5 +17,8 @@
                 </div>
             </div>
         <% end %>
+        <div class="pag-bar">
+            <%== pagy_bootstrap_nav(@pagy) if @pagy.pages > 1 %>
+        </div>
     </div>
 </div>
