@@ -1,10 +1,9 @@
 <div class="container mt-5">
-  
   <div class="row">
     <div class="col-md-8 mb-2">
       <div class="table-responsive shadow py-4 px-3">
-      <h1 class="text-center">Your Cart</h1>
-      <hr />
+        <h1 class="text-center">Your Cart</h1>
+        <hr />
         <table class="table">
           <thead>
             <tr>
@@ -16,51 +15,55 @@
             </tr>
           </thead>
           <tbody>
-            <% subtotal = 0 %>
-            <% @cart_entries.each do |cart_entry| %>
-              <% product = Product.find(cart_entry.product_id) %>
+            <% if @cart.cart_products.empty? %>
               <tr>
-                <td><%= image_tag product.image, class: 'w-50 border' %></td>
-                <td><%= product.name %></td>
-                <td><%= cart_entry.quantity %></td>
-                <td><%= cart_entry.quantity * product.price %>$</td>
-                <td>
-                  <%= link_to 'Remove', delete_cart_item_path(cart_entry), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm' %>
+                <td colspan="5" class="text-center py-5 text-danger">
+                  <h3>Your Cart is Empty</h3>
                 </td>
               </tr>
-              <% subtotal += cart_entry.quantity * product.price %>
+            <% else %>
+              <% @cart.products.each do |product| %>
+                <% cart_product = @cart.cart_products.find_by(product_id: product.id) %>
+                <tr>
+                  <td><%= image_tag product.image, class: 'w-50 border' %></td>
+                  <td><%= product.name %></td>
+                  <td><%= cart_product.quantity %></td>
+                  <td><%= number_to_currency(product.price) %></td>
+                  <td>
+                    <%= link_to 'Remove', delete_cart_item_path(product), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm' %>
+                  </td>
+                </tr>
+              <% end %>
             <% end %>
           </tbody>
         </table>
         <%= link_to 'Back to Home', root_path, class: 'btn btn-primary' %>
       </div>
     </div>
-      <div class="col-md-4 ">
-          <div class="card bg-light text-dark shadow">
-              <div class="card-header bg-primary text-white">
-                  <h5 class="card-title text-center">Hello
-                      <%= current_user.name %></h5>
-              </div>
-              <div class="card-body">
-                  <p class="card-text">
-                      <b>Total Items:</b>
-                      <%= @cart_entries.count %></p>
-                  <p class="card-text">
-                      <b>Subtotal:</b>
-                      <%= subtotal %>$</p>
-                  <p class="card-text">
-                      <b>Tax (0%):</b>
-                      <%= (0.0).round(2) %>$</p>
-                  <!-- Tax value (0%) -->
-                  <hr>
-                      <p class="card-text">
-                          <b>Total:</b>
-                          <%= (subtotal + 0.0).round(2) %>$</p>
-                      <!-- Total (subtotal + tax) -->
-                      <%= link_to "Proceed to Checkout", cart_path, class: 'btn btn-outline-info btn-block form-control'
-                      %>
-                  </div>
-              </div>
-          </div>
+    <div class="col-md-4">
+      <div class="card bg-light text-dark shadow">
+        <div class="card-header bg-primary text-white">
+          <h5 class="card-title text-center">Hello <%= current_user.name %></h5>
+        </div>
+        <div class="card-body">
+          <p class="card-text">
+            <b>Total Items:</b> <%= @cart.cart_products.sum(:quantity) %>
+          </p>
+          <p class="card-text">
+            <b>Subtotal:</b> <%= number_to_currency(@cart.cart_products.sum { |cart_product| cart_product.quantity * cart_product.product.price }) %>
+          </p>
+          <p class="card-text">
+            <b>Tax (0%):</b> <%= number_to_currency(0.0) %>
+          </p>
+          <!-- Tax value (0%) -->
+          <hr>
+          <p class="card-text">
+            <b>Total:</b> <%= number_to_currency(@cart.cart_products.sum { |cart_product| cart_product.quantity * cart_product.product.price } + 0.0) %>
+          </p>
+          <!-- Total (subtotal + tax) -->
+          <%= link_to 'Proceed to Checkout', cart_path, class: 'btn btn-outline-info btn-block form-control' %>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
