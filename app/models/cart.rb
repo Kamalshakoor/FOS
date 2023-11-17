@@ -1,4 +1,5 @@
 class Cart < ApplicationRecord
   belongs_to :user
-  has_and_belongs_to_many :products
+  has_many :cart_products
+  has_many :products, through: :cart_products
 end

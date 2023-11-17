@@ -1,6 +1,6 @@
 class ProductsController < ApplicationController
     include CustomAuthorization
-    before_action :set_params, only: [:edit, :update, :show, :destory] 
+    before_action :set_params, only: [:edit, :update, :show, :destroy] 
     before_action :authenticate_user!,only: [:create,:index,:edit, :update, :destroy]
     before_action :authorize_admin, only: [:new,:create, :edit, :update, :destroy, :index]
 
@@ -30,7 +30,8 @@ class ProductsController < ApplicationController
         end
     end
 
-    def update 
+    def update
+        # byebug
         if @product.update(product_params)
             flash[:notice] = 'Product Updated Successfully'
             redirect_to products_path
@@ -39,10 +40,21 @@ class ProductsController < ApplicationController
         end
     end
 
-    def destroy
-        @product.destroy
+    def destroy        
+        # Find and remove the product from all user carts
+        Cart.joins(:cart_products).where(cart_products: { product_id: @product.id }).each do |cart|
+          cart.products.delete(@product)
+        end
+      
+        if @product.destroy
+          flash[:notice] = 'Product Deleted Successfully'
+        else
+          flash[:alert] = 'Failed to delete the product'
+        end
+      
         redirect_to products_path
-    end
+      end
+      
 
     private
 
