@@ -39,6 +39,10 @@
                     <%= f.number_field :price,min:1,class:'form-control', required: true %>
                 </div>
             </div>
+            <div class="form-group">
+                <%= f.label :category_id %>
+                <%= f.collection_select :category_id, @categories, :id, :name, { prompt: "Select a Category" }, { class: "form-control mt-2" } %>
+            </div>
             <div class='form-group mb-3'>
                 <%= f.label :image, class:"col-form-label", required: true %> <small class='text-danger'>*</small>
                 <div>

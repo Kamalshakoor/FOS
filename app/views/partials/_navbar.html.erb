@@ -16,12 +16,20 @@
                 <li class="nav-item">
                     <%= link_to "Home", root_path, class:'nav-link' %>
                 </li>
+                <% Category.all.each do |category| %>
+                    <li class="nav-item">
+                    <%= link_to category.name, category_path(category),class:'nav-link' %>
+                    </li>
+                <% end %>
                 <% if user_signed_in? && current_user.admin? %>
                     <li class="nav-item">
                         <%= link_to "Products", products_path, class:'nav-link' %>
                     </li>
                     <li class="nav-item">
                         <%= link_to "Staff", staff_index_path, class:'nav-link' %>
+                    </li>
+                    <li class="nav-item">
+                        <%= link_to "Categories", categories_path, class:'nav-link' %>
                     </li>
                 <% end %>
             </ul>

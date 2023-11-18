@@ -14,10 +14,12 @@ class ProductsController < ApplicationController
     end
     def new 
         @product = Product.new 
+        @categories = Category.all
     end
 
     def edit 
         # puts @product.inspect
+        @categories = Category.all
     end
 
     def create 
@@ -59,7 +61,7 @@ class ProductsController < ApplicationController
     private
 
     def product_params
-        params.require(:product).permit(:name,:description,:price,:image)
+        params.require(:product).permit(:name,:description,:price,:image,:category_id)
     end
 
     def set_params

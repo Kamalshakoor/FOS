@@ -1,0 +1,19 @@
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-sm-6 offset-md-3 shadow py-3">
+            <%= form_for @category do |f| %>
+                <% if action_name == "new" %>
+                    <h1 class='text-center'>Add New Category</h1>
+                    <hr />
+                    <% else %>
+                    <h1 class='text-center'>Edit Category</h1>
+                    <hr />
+                <% end %>
+                <%= f.label :name %>
+                <%= f.text_field :name, class:'form-control', placeholder:'Enter name...' %>
+                <%= f.submit class:' btn btn-outline-success mt-3' %>
+            <% end %>
+        </div>
+    </div>
+</div>
+
