@@ -23,10 +23,10 @@
 <div class="container products">
     <div class="row g-2">
         <h1 class='text-center mb-5'>Most Recent Products</h1>
-        <% @products.each do |product| %>
+        <% @recent_products.each do |product| %>
             <div class="col-sm-6 col-md-4">
                 <div class="card shadow border">
-                  <%= image_tag product.image, class:'img img-fluid card-img-top'%>
+                  <%= image_tag product.image, class:'img img-fluid card-img-top', style:'height:15rem'%>
                   <div class="card-body">
                     <h5 class="card-title"><%= product.name %></h5>
                     <h6 class="card-subtitle mb-2 text-info "><%= product.price %>$</h6>
@@ -39,8 +39,28 @@
                 </div>
             </div>
         <% end %>
-        <div class="pag-bar">
-            <%== pagy_bootstrap_nav(@pagy) if @pagy.pages > 1 %>
-        </div>
+    </div>
+  </div>
+  <svg class='swave' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#f3f4f5" fill-opacity="1" d="M0,160L80,170.7C160,181,320,203,480,192C640,181,800,139,960,106.7C1120,75,1280,53,1360,42.7L1440,32L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"></path></svg>
+  <div class='container-fluid custom-bg-color'>
+    <div class="container">
+           <div class="row mb-5">
+              <h1 class='mb-5 text-center'>Most Liked Products</h1>
+              <% @recent_products.each do |product| %>
+                  <div class="col-sm-6 col-md-4 mb-3">
+                      <div class="card shadow border">
+                        <%= image_tag product.image, class:'img img-fluid card-img-top',style:'height:15rem'%>
+                        <div class="card-body">
+                          <h5 class="card-title"><%= product.name %></h5>
+                          <h6 class="card-subtitle mb-2 text-info "><%= product.price %>$</h6>
+                          <p class="card-text"><%= truncate(product.description, length: 100) %></p>
+                        </div>
+                        <div class='card-footer space-around'>
+                          <%= link_to "Show Detail", product_path(product),class:'btn btn-outline-primary' %>
+                        </div>
+                      </div>
+                  </div>
+              <% end %>
+          </div>
     </div>
 </div>
