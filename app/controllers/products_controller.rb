@@ -5,6 +5,8 @@ class ProductsController < ApplicationController
     before_action :authorize_admin, only: [:new,:create, :edit, :update, :destroy, :index]
 
     def home 
+        @recent_products = Product.order(created_at: :desc).limit(6)
+        @random_products = Product.order("RANDOM()").limit(6)
         @pagy, @products = pagy(Product.all.order('created_at DESC'), items: 15)
     end
 
@@ -13,6 +15,8 @@ class ProductsController < ApplicationController
     end
     
     def show 
+        @same_category_product = Product.where(category_id: @product.category).order("RANDOM()").limit(3)
+        # puts @same_category_product.inspect
     end
     def new 
         @product = Product.new 
