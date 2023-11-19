@@ -9,6 +9,10 @@ class CategoriesController < ApplicationController
         @categories = Category.all.order('created_at DESC')
     end
 
+    def show 
+        @products = @category.products
+    end
+
     def new 
         @category = Category.new
     end

@@ -21,17 +21,7 @@
                     <%= link_to category.name, category_path(category),class:'nav-link' %>
                     </li>
                 <% end %>
-                <% if user_signed_in? && current_user.admin? %>
-                    <li class="nav-item">
-                        <%= link_to "Products", products_path, class:'nav-link' %>
-                    </li>
-                    <li class="nav-item">
-                        <%= link_to "Staff", staff_index_path, class:'nav-link' %>
-                    </li>
-                    <li class="nav-item">
-                        <%= link_to "Categories", categories_path, class:'nav-link' %>
-                    </li>
-                <% end %>
+
             </ul>
             <% if user_signed_in? %>
                 <div class="d-flex align-items-center">
@@ -52,17 +42,39 @@
                                     id="dropdownMenuButton1"
                                     data-bs-toggle="dropdown"
                                     aria-expanded="false">
-                                    <%= current_user.name %>
+                                    <i class="fas fa-user-circle fa-lg mr-2"></i> <%= current_user.name %>
                                 </button>
                                 <ul
                                     class="dropdown-menu dropdown-menu-end"
                                     aria-labelledby="dropdownMenuButton1">
-                                    <%= link_to "Edit Profile", edit_user_registration_path(current_user),
-                                    class:'dropdown-item' %>
-                                    <%= link_to "Orders", cart_path, class:'dropdown-item' %>
+                                    <% if current_user.admin? %>
+                                        <%= link_to products_path, class: 'dropdown-item' do %>
+                                            <i class="fas fa-box mr-2"></i> Products
+                                            <span class="badge bg-success rounded-circle"><%= Product.all.count %></span> 
+                                        <% end %>
+                                        <%= link_to staff_index_path, class: 'dropdown-item' do %>
+                                            <i class="fas fa-users mr-2"></i> Staff
+                                            <span class="badge bg-success rounded-circle"><%= User.where(role: 'staff').count %></span> 
+                                        <% end %>
+                                        <%= link_to categories_path, class: 'dropdown-item' do %>
+                                            <i class="fas fa-folder mr-2"></i> Categories
+                                            <span class="badge bg-success rounded-circle"><%= Category.all.count %></span> 
+                                        <% end %>
+                                    <% end %>
+                                    <%= link_to edit_user_registration_path(current_user), class: 'dropdown-item' do %>
+                                    <i class="fas fa-user-edit mr-2"></i> Edit Profile
+                                    <% end %>
+
+                                    <%= link_to cart_path, class: 'dropdown-item' do %>
+                                    <i class="fas fa-shopping-cart mr-2"></i> My Orders
+                                    <% end %>
+
                                     <li><hr class="dropdown-divider"></li>
-                                    <%= link_to "Logout", destroy_user_session_path, class:'dropdown-item', method:
-                                    :delete %>
+
+                                    <%= link_to destroy_user_session_path, class: 'dropdown-item', method: :delete do %>
+                                    <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                                    <% end %>
+
                                 </ul>
                             </div>
                         </div>

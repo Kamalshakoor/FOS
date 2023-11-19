@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'dashboard/home'
   devise_for :users, controllers: { registrations: 'registrations' }
   root 'products#home'
   resources :products

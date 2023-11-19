@@ -1,0 +1,14 @@
+<div class="shadow border p-3">
+  <%= link_to products_path, class: 'list-group-item text-start mb-3' do %>
+    <i class="fas fa-box mr-2"></i> Products
+    <span class="badge bg-success rounded-circle"><%= Product.all.count %></span> 
+  <% end %>
+   <%= link_to staff_index_path, class: 'list-group-item text-start mb-3' do %>
+    <i class="fas fa-users mr-2"></i> Staff
+    <span class="badge bg-success rounded-circle"><%= User.where(role: 'staff').count %></span> 
+  <% end %>
+  <%= link_to categories_path, class: 'list-group-item text-start mb-3' do %>
+    <i class="fas fa-folder mr-2"></i> Categories
+    <span class="badge bg-success rounded-circle"><%= Category.all.count %></span> 
+  <% end %>
+</div>

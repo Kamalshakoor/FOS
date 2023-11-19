@@ -7,9 +7,11 @@ class ProductsController < ApplicationController
     def home 
         @pagy, @products = pagy(Product.all.order('created_at DESC'), items: 15)
     end
+
     def index 
         @pagy, @products = pagy(Product.all.order('created_at DESC'), items: 10)
     end
+    
     def show 
     end
     def new 
