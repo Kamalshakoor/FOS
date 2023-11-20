@@ -3,7 +3,7 @@ include CustomAuthorization
 before_action :authenticate_user!
       
     def add_to_cart
-        product = Product.find(params[:product_id]) # Assuming you pass the product ID in the URL
+        product = Product.find(params[:product_id]) 
 
         # Find or create a cart for the current user
         cart = current_user.cart || current_user.build_cart
@@ -14,14 +14,15 @@ before_action :authenticate_user!
         if cart_product
         # If the product is already in the cart, update the quantity
         cart_product.update(quantity: cart_product.quantity + 1)
+        redirect_to root_path, notice: 'Product added to cart successfully.'
         else
         # If the product is not in the cart, add it to the cart with the specified quantity
         cart.products << product
+        redirect_to root_path, notice: 'Product added to cart successfully.'
         # cart_product = cart.cart_products.find_by(product_id: product.id)
         # cart_product.update(quantity: params[:quantity].to_i)
         end
 
-        redirect_to cart_path(cart), notice: 'Product added to cart successfully.'
     end
 
     def show_cart
