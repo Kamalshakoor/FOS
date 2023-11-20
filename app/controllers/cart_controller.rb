@@ -60,29 +60,6 @@ before_action :authenticate_user!
           # Find cart or initialize a new one 
             @cart = Cart.find_or_initialize_by(user_id: current_user.id)
 
-<<<<<<< Updated upstream
-        
-            # Check if the cart table already contain product for current user
-            existing_item = Cart.find_by(product_id: product.id, user_id: current_user.id)
-        
-            if existing_item
-                # byebug
-                # If the product is already in the cart, update its quantity
-                existing_item.quantity += params[:quantity].to_i
-                existing_item.save
-            else
-                # If the product is not in the cart, add it
-                new_item = Cart.new(product_id: product.id, user_id: current_user.id)
-                new_item.quantity = params[:quantity].to_i
-                new_item.save
-            end
-            flash[:notice] = 'Product Added Successfully'
-            redirect_to root_path
-        else
-          flash[:notice] = 'Something Went Wrong. Try Again Later'
-          redirect_to product_path(params[:product_id])
-        end
-=======
         if cart_product
         # If the product is already in the cart, update the quantity
         cart_product.update(quantity: cart_product.quantity + 1)
@@ -96,7 +73,6 @@ before_action :authenticate_user!
         redirect_to cart_path, notice: 'Product added to cart successfully.'
 
 
->>>>>>> Stashed changes
     end
       
 
