@@ -4,9 +4,9 @@ include CustomAuthorization
     before_action :authorize_role,only: [:index,:update]
 
     def index 
-        @pagy_pending_orders, @pending_orders = pagy(current_user.orders.where(status: 'pending').order('created_at DESC'), items: 15)
-        @pagy_in_progress_orders, @in_progress_orders = pagy(current_user.orders.where(status: 'progress').order('created_at DESC'), items: 15)
-        @pagy_completed_orders, @completed_orders = pagy(current_user.orders.where(status: 'completed').order('created_at DESC'), items: 15)    
+        @pagy_pending_orders, @pending_orders = pagy(Order.where(status: 'pending').order('created_at DESC'), items: 15)
+        @pagy_in_progress_orders, @in_progress_orders = pagy(Order.where(status: 'progress').order('created_at DESC'), items: 15)
+        @pagy_completed_orders, @completed_orders = pagy(Order.where(status: 'completed').order('created_at DESC'), items: 15)    
     end
 
     def create 
