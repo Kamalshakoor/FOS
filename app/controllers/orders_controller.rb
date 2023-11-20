@@ -1,10 +1,12 @@
 class OrdersController < ApplicationController
 include CustomAuthorization
     before_action :authenticate_user!
-    before_action :authorize_role,only: [:index]
+    before_action :authorize_role,only: [:index,:update]
 
     def index 
-        @pagy, @orders = pagy(Order.all.order('created_at DESC'),items:15)
+        @pagy_pending_orders, @pending_orders = pagy(current_user.orders.where(status: 'pending').order('created_at DESC'), items: 15)
+        @pagy_in_progress_orders, @in_progress_orders = pagy(current_user.orders.where(status: 'progress').order('created_at DESC'), items: 15)
+        @pagy_completed_orders, @completed_orders = pagy(current_user.orders.where(status: 'completed').order('created_at DESC'), items: 15)    
     end
 
     def create 
@@ -23,6 +25,18 @@ include CustomAuthorization
        @pagy, @orders = pagy(current_user.orders.order('created_at DESC'),items:10)
     end
 
+    def update
+        @order = Order.find(params[:id])
+      
+        if @order.update(order_params)
+          flash[:notice] = 'Order status was successfully updated.'
+        else
+          flash[:alert] = 'Failed to update order status.'
+        end
+      
+        redirect_to orders_path
+    end
+
     private
     def calculate_total_price
         total_price = 0
@@ -34,4 +48,7 @@ include CustomAuthorization
     
         total_price
       end
+    def order_params
+        params.require(:order).permit(:status)
+    end
 end

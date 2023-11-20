@@ -1,36 +1,138 @@
 <div class="container mt-5">
-    <div class="row">
-        <div class="col-md-6 offset-md-3 shadow pt-3">
-            <h1 class='text-center'>All Orders</h1>
-            <hr />
-            <table>
+  <div class="row">
+    <div class="col-md-6 offset-md-3 shadow pt-3">
+      <!-- Bootstrap pills navigation -->
+      <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <a class="nav-link active" id="pills-pending-tab" data-bs-toggle="pill" href="#pills-pending" role="tab" aria-controls="pills-pending" aria-selected="true">Pending</a>
+        </li>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" id="pills-in-progress-tab" data-bs-toggle="pill" href="#pills-in-progress" role="tab" aria-controls="pills-in-progress" aria-selected="false">In Progress</a>
+        </li>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" id="pills-completed-tab" data-bs-toggle="pill" href="#pills-completed" role="tab" aria-controls="pills-completed" aria-selected="false">Completed</a>
+        </li>
+      </ul>
+      <!-- Bootstrap pills content -->
+      <div class="tab-content" id="pills-tabContent">
+        <!-- Tab for pending orders -->
+        <div class="tab-pane fade show active" id="pills-pending" role="tabpanel" aria-labelledby="pills-pending-tab">
+          <h3 class="text-center">Pending Orders</h3>
+          <hr />
+           <% if @pending_orders.empty? %>
+                <h2 class='text-center py-5'>Empty</h2>
+           <% else %>
+          <table>
             <thead>
-                <tr>
-                <th class='col-md-2'>Order Number</th>
-                <th class='col-md-2'>Total Price</th>
-                <th class='col-md-2'>Status</th>
-                </tr>
+              <tr>
+                <th class="col-md-2">Order Number</th>
+                <th class="col-md-2">Total Price</th>
+                <th class="col-md-4 text-center">Status</th>
+              </tr>
             </thead>
             <tbody>
-                <% @orders.each do |order| %>
-                <tr>
-                    <td><%= order.id %></td>
-                    <td><%= order.total_price %></td>
-                   <td>
-                        <%= form_with(model: order, local: true, url: orders_path(order), method: :patch) do |form| %>
-                        <%= form.select :status, Order.statuses.keys, prompt: 'Select Status',class:'form-control' %>
-                        <% end %>
-                    </td>
-                </tr>
-                <% end %>
+              <% @pending_orders.each do |order| %>
+              <tr>
+                <td><%= order.id %></td>
+                <td><%= order.total_price %></td>
+               <td>
+                    <!-- Status dropdown for updating the order status -->
+                    <%= form_for order, url: order_path(order), method: :patch, class: 'd-inline' do |f| %>
+                        <div class="row">
+                        <div class="col-md-6">
+                            <%= f.select :status, Order.statuses.keys, { selected: order.status }, class: 'form-select' %>
+                        </div>
+                        <div class="col-md-6">
+                            <%= f.submit 'Update', class: 'btn btn-outline-primary' %>
+                        </div>
+                        </div>
+                    <% end %>
+                </td>
+              </tr>
+              <% end %>
             </tbody>
-            </table>
-             <div class="pag-bar mt-3">
-            <%== pagy_bootstrap_nav(@pagy) if @pagy.pages > 1 %>
+          </table>
+          <div class="pag-bar mt-3">
+            <%== pagy_bootstrap_nav(@pagy_pending_orders) if @pagy_pending_orders.pages > 1 %>
+          </div>
+        <% end %>
         </div>
+
+        <!-- Tab for in progress orders -->
+        <div class="tab-pane fade" id="pills-in-progress" role="tabpanel" aria-labelledby="pills-in-progress-tab">
+          <h3 class="text-center">In Progress Orders</h3>
+          <hr />
+            <% if @in_progress_orders.empty? %>
+                <h2 class='text-center py-5'>Empty</h2>
+           <% else %>
+           <table>
+            <thead>
+              <tr>
+                <th class="col-md-2">Order Number</th>
+                <th class="col-md-2">Total Price</th>
+                <th class="col-md-4 text-center">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @in_progress_orders.each do |order| %>
+              <tr>
+                <td><%= order.id %></td>
+                <td><%= order.total_price %></td>
+               <td>
+                    <!-- Status dropdown for updating the order status -->
+                    <%= form_for order, url: order_path(order), method: :patch, class: 'd-inline' do |f| %>
+                        <div class="row">
+                        <div class="col-md-6">
+                            <%= f.select :status, Order.statuses.keys, { selected: order.status }, class: 'form-select' %>
+                        </div>
+                        <div class="col-md-6">
+                            <%= f.submit 'Update', class: 'btn btn-outline-success' %>
+                        </div>
+                        </div>
+                    <% end %>
+                </td>
+     
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+          <div class="pag-bar mt-3">
+            <%== pagy_bootstrap_nav(@pagy_in_progress_orders) if @pagy_in_progress_orders.pages > 1 %>
+          </div>
+          <% end %>
         </div>
+
+        <!-- Tab for completed orders -->
+        <div class="tab-pane fade" id="pills-completed" role="tabpanel" aria-labelledby="pills-completed-tab">
+          <h3 class="text-center">Completed Orders</h3>
+          <hr />
+            <% if @completed_orders.empty? %>
+                <h2 class='text-center py-5'>Empty</h2>
+           <% else %>
+           <table>
+            <thead>
+              <tr>
+                <th class="col-md-2">Order Number</th>
+                <th class="col-md-2">Total Price</th>
+                <th class="col-md-2">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @completed_orders.each do |order| %>
+              <tr>
+                <td><%= order.id %></td>
+                <td><%= order.total_price %></td>
+                <td><%= order.status %></td>
+              </tr>
+              <% end %>
+            </tbody>
+          </table>
+          <div class="pag-bar mt-3">
+            <%== pagy_bootstrap_nav(@pagy_completed_orders) if @pagy_completed_orders.pages > 1 %>
+          </div>
+          <% end %>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
-
-
-
