@@ -2,6 +2,8 @@ class CartController < ApplicationController
 include CustomAuthorization
 before_action :authenticate_user!
       
+
+
     def add_to_cart
         product = Product.find(params[:product_id]) 
 
@@ -10,18 +12,17 @@ before_action :authenticate_user!
 
         # Check if the product is already in the cart
         cart_product = cart.cart_products.find_by(product_id: product.id)
-
         if cart_product
-        # If the product is already in the cart, update the quantity
-        cart_product.update(quantity: cart_product.quantity + 1)
-        redirect_to root_path, notice: 'Product added to cart successfully.'
+          # If the product is already in the cart, update the quantity
+          cart_product.update(quantity: cart_product.quantity + 1)
         else
-        # If the product is not in the cart, add it to the cart with the specified quantity
-        cart.products << product
-        redirect_to root_path, notice: 'Product added to cart successfully.'
-        # cart_product = cart.cart_products.find_by(product_id: product.id)
-        # cart_product.update(quantity: params[:quantity].to_i)
+          # If the product is not in the cart, add it to the cart with the specified quantity
+          cart.products << product
+          # cart_product = cart.cart_products.find_by(product_id: product.id)
+          # cart_product.update(quantity: params[:quantity].to_i)
         end
+          cart.save!
+          redirect_to cart_path, notice: 'Product added to cart successfully.'
 
     end
 
