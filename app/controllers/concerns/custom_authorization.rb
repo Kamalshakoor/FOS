@@ -5,4 +5,12 @@ module CustomAuthorization
           redirect_to root_path
         end
     end 
+
+    def authorize_role
+      unless current_user.role == 'admin' || current_user.role == 'staff'
+        flash[:alert] = "You are not authorized to perform this action."
+        redirect_to root_path
+      end
+  end 
+
 end

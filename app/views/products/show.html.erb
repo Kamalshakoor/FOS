@@ -45,10 +45,14 @@
         <p class="text-center"><%= @product.price %>$</p>
         
           <%= form_tag add_to_cart_path(@product), method: :post do %>
-            <div class="form-group">
+            <%
+=begin%>
+ <div class="form-group">
               <%= label_tag 'quantity', 'Quantity' %>
               <%= number_field_tag 'quantity', 1, min: 1, class: 'form-control' %>
-            </div>
+            </div> 
+<%
+=end%>
             <%= submit_tag 'Add to Cart', class: 'btn btn-outline-success form-control mt-2' %>
         <% end %>    
       </div>

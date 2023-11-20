@@ -13,12 +13,12 @@ before_action :authenticate_user!
 
         if cart_product
         # If the product is already in the cart, update the quantity
-        cart_product.update(quantity: cart_product.quantity + params[:quantity].to_i)
+        cart_product.update(quantity: cart_product.quantity + 1)
         else
         # If the product is not in the cart, add it to the cart with the specified quantity
         cart.products << product
-        cart_product = cart.cart_products.find_by(product_id: product.id)
-        cart_product.update(quantity: params[:quantity].to_i)
+        # cart_product = cart.cart_products.find_by(product_id: product.id)
+        # cart_product.update(quantity: params[:quantity].to_i)
         end
 
         redirect_to cart_path(cart), notice: 'Product added to cart successfully.'
@@ -46,5 +46,6 @@ before_action :authenticate_user!
       
         redirect_to cart_path
     end
+    
   
 end
