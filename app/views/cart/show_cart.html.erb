@@ -61,7 +61,7 @@
             <b>Total:</b> <%= number_to_currency(@cart.cart_products.sum { |cart_product| cart_product.quantity * cart_product.product.price } + 0.0) %>
           </p>
           <!-- Total (subtotal + tax) -->
-          <%= link_to 'Proceed to Checkout', cart_path, class: 'btn btn-outline-info btn-block form-control' %>
+          <%= link_to 'Proceed to Checkout', orders_path, class: 'btn btn-outline-info btn-block form-control', method: :post %>
         </div>
       </div>
     </div>
