@@ -2,6 +2,7 @@ class OrdersController < ApplicationController
 include CustomAuthorization
     before_action :authenticate_user!
     before_action :authorize_role,only: [:index,:update]
+    skip_before_action :verify_authenticity_token, only: [:process_payment]
 
     def index 
         @pagy_pending_orders, @pending_orders = pagy(Order.where(status: 'pending').order('created_at DESC'), items: 15)
@@ -15,11 +16,8 @@ include CustomAuthorization
         current_user.cart.cart_products.each do |cart_product|
             OrderItem.create(order: @order, product:cart_product.product, quantity:cart_product.quantity)
         end
-        current_user.cart.cart_products.destroy_all
-        flash[:notice] = 'Order was successfully created.'
-        redirect_to root_path
-
-    end
+        redirect_to payment_form_order_path(@order)
+      end
 
     def show_orders 
        @pagy, @orders = pagy(current_user.orders.order('created_at DESC'),items:10)
@@ -36,6 +34,39 @@ include CustomAuthorization
       
         redirect_to orders_path
     end
+
+
+    def payment_form
+      @order = Order.find(params[:id])
+    end
+    
+
+    def process_payment
+      @order = Order.find(params[:id])
+      stripe_token = params[:stripe_token]
+    
+      begin
+        charge = Stripe::Charge.create(
+          amount: (@order.total_price * 100).to_i, # Amount in cents
+          currency: 'usd',
+          source: stripe_token,
+          description: 'Payment for order'
+        )
+    
+        # If the charge is successful cart will be deleted
+        current_user.cart.cart_products.destroy_all
+        flash[:notice] = 'Order was successfully created and paid for.'
+        redirect_to root_path
+      rescue Stripe::CardError => e
+        flash[:alert] = e.message
+        render :payment_form
+      end
+    end
+    
+
+
+
+
 
     private
     def calculate_total_price
