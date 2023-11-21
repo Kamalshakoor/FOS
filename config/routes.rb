@@ -1,8 +1,11 @@
 Rails.application.routes.draw do
-  get 'dashboard/home'
   devise_for :users, controllers: { registrations: 'registrations' }
   root 'products#home'
-  resources :products
+  resources :products do
+    collection do
+      get 'search'
+    end
+  end
   resources :staff, only: [:index, :new, :create, :destroy]
   resources :categories
   post '/cart/add_to_cart/:product_id', to: 'cart#add_to_cart', as: 'add_to_cart'

@@ -4,14 +4,14 @@
             <div class="col-md-6 offset-md-3 pt-5" >
                 <h1 class="display-6">Order Delicious Food Online</h1>
                 <p class="lead">Discover a world of flavors at your doorstep</p>
-                <form class="mt-4">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search for your favorite dish">
-                        <div class="input-group-append">
-                            <button class="btn btn-primary search-button" type="button">Search</button>
-                        </div>
-                    </div>
-                </form>
+               <%= form_with(url: search_products_path, method: "get", local: true) do |form| %>
+                <div class="input-group">
+                  <%= form.text_field :query, class: "form-control", placeholder: "Search for your favorite dish", required: true %>
+                  <div class="input-group-append">
+                    <%= form.button "Search", class: "btn btn-primary search-button", type: "submit" %>
+                  </div>
+                </div>
+              <% end %>
             </div>
         </div>
     </div> 
