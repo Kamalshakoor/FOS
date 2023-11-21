@@ -1,0 +1,76 @@
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title text-center">Payment Information</h5>
+        </div>
+        <div class="card-body">
+          <!-- Display any flash messages, e.g., validation errors or payment failures -->
+          <% if flash[:alert] %>
+            <div class="alert alert-danger">
+              <%= flash[:alert] %>
+            </div>
+          <% end %>
+
+          <form id="payment-form" action="<%= process_payment_order_path(@order) %>" method="post">
+            <!-- Add hidden fields for CSRF protection -->
+            <%= csrf_meta_tags %>
+
+            <!-- Include a hidden field to hold the Stripe token -->
+            <input type="hidden" name="stripe_token" id="stripe-token" value="" required>
+
+            <!-- Card Element for Credit Card -->
+            <div id="card-element" class="form-group">
+              <!-- A Stripe Element will be inserted here. -->
+            </div>
+
+            <!-- Display any card errors -->
+            <div id="card-errors" role="alert" class="text-danger"></div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary btn-block mt-3">Submit Payment</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Stripe.js initialization and payment handling code -->
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const stripe = Stripe("pk_test_51O1rNUHNFIrss4LMGbtQoG6GyKUWWLCdSqgz3EhbvHaIKAzVdNVBdRQVlu2PBxaZuCuIBmjuIzpjcVRuEeBZH2YA00fK5qf4cO"); 
+    const elements = stripe.elements();
+
+    // Create an instance of the card element and mount it to the DOM.
+    const card = elements.create("card");
+    card.mount("#card-element");
+
+    // Handle form submission.
+    const form = document.getElementById("payment-form");
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      // Use Stripe.js to create a token for the card.
+      const { token, error } = await stripe.createToken(card);
+
+      if (error) {
+        // Display error message to the user.
+        const errorElement = document.getElementById("card-errors");
+        errorElement.textContent = error.message;
+      } else {
+        // Add the token to the hidden field in the form.
+        const tokenInput = document.getElementById("stripe-token");
+        tokenInput.value = token.id;
+        // console.log("Token input value:", tokenInput.value);
+
+
+        // Submit the form to your server for payment processing.
+        form.submit();
+      }
+    });
+  });
+</script>
