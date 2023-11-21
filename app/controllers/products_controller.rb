@@ -64,6 +64,16 @@ class ProductsController < ApplicationController
       end
       
 
+
+      def search
+        @query = params[:query]
+        @results = Product.where("name LIKE ?", "%#{@query}%")
+        if @results.empty?
+            redirect_to root_path
+            flash[:alert] = "No matching products found."
+        end
+      end
+
     private
 
     def product_params
