@@ -25,7 +25,6 @@ include CustomAuthorization
 
     def update
         @order = Order.find(params[:id])
-      
         if @order.update(order_params)
           flash[:notice] = 'Order status was successfully updated.'
         else
@@ -79,7 +78,8 @@ include CustomAuthorization
     
         total_price
       end
+
     def order_params
-        params.require(:order).permit(:status)
+        params.require(:order).permit(:status,:rating,:comment)
     end
 end

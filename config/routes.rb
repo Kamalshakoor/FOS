@@ -20,4 +20,8 @@ Rails.application.routes.draw do
   end
   
   get '/myorders', to: 'orders#show_orders', as: 'myorders'
+  resources :ratings, only: [:new,:create]
+
+
+
 end

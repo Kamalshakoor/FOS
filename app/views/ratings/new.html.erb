@@ -1,0 +1,20 @@
+<%= form_with(model: @rating, url: ratings_path, method: :post) do |form| %>
+  <div class="rating">
+    <%= form.hidden_field :order_id, value: @order.id %>
+    <%
+=begin%>
+ <%= form.hidden_field :product_id, value: @product.id %> 
+<%
+=end%>
+    
+    <span class="star" data-value="1"></span>
+    <span class="star" data-value="2"></span>
+    <span class="star" data-value="3"></span>
+    <span class="star" data-value="4"></span>
+    <span class="star" data-value="5"></span>
+    
+    <%= form.hidden_field :value, class: 'rating-value' %>
+    
+    <button type="submit" class="btn btn-primary">Submit Rating</button>
+  </div>
+<% end %>

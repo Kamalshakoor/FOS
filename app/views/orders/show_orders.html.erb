@@ -17,6 +17,11 @@
                     <td><%= order.id %></td>
                     <td><%= order.total_price %></td>
                     <td><%= order.status %></td>
+                    <td>
+                        <% if order.status == 'completed' %>
+                             <%= link_to 'Give Feedback', new_rating_path(order_id: order.id), class: 'btn btn-primary btn-sm' %>
+                        <% end %>
+                    </td>
                 </tr>
                 <% end %>
             </tbody>
