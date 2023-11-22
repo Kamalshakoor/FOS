@@ -66,7 +66,34 @@ include CustomAuthorization
         render :payment_form
       end
     end
-    
+
+      def feedback
+        @order = Order.find(params[:id]) # Find the order based on order ID
+      end
+
+      def submit_feedback
+        order_id = params[:order_id]
+        # Debugging: Print the order_id to check its value
+        puts "Order ID: #{order_id}"
+       
+      
+        # Find the specific OrderItem associated with the given order_id
+        order_item = OrderItem.find_by(order_id: order_id)
+      
+        # Debugging: Print order_item to check if it's found
+        puts "Order Item: #{order_item.inspect}"
+        # byebug
+        # Update the rating and comment for all order items
+        # order_item.rating = params[:rating]
+        # order_item.comment = params[:comment]
+        # byebug
+        #   flash[:notice]= "Something went wrong!"
+        #   redirect_to root_path
+        
+
+
+      end
+
 
 
 

@@ -16,6 +16,8 @@ Rails.application.routes.draw do
     member do
       get 'payment_form'
       post 'process_payment'
+      get 'feedback' 
+      post 'submit_feedback'
     end
   end
   
