@@ -67,7 +67,7 @@ include CustomAuthorization
     end
 
       def feedback
-        @order = Order.find(params[:id]) # Find the order based on order ID
+        @order = Order.find(params[:id]) 
       end
 
       def submit_feedback

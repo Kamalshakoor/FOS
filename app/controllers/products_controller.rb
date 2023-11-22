@@ -16,6 +16,26 @@ class ProductsController < ApplicationController
     
     def show 
         @same_category_product = Product.where(category_id: @product.category).order("RANDOM()").limit(3)
+        @order_items = @product.order_items.includes(:order)
+        # byebug
+        # Initialize arrays to store ratings and comments
+        @ratings = []
+        @comments = []
+        # Iterate through the associated order items
+        @order_items.each do |order_item|
+            # Check if the order item has a rating and comment
+            if order_item.rating.present?
+            @ratings << order_item.rating
+            end
+            
+            if order_item.comment.present?
+            @comments << order_item.comment
+            end
+        end
+
+
+
+
         # puts @same_category_product.inspect
     end
     def new 
