@@ -13,9 +13,11 @@ include CustomAuthorization
     def create 
         @order = current_user.orders.build(total_price: calculate_total_price, status: 'pending')
         @order.save
-        current_user.cart.cart_products.each do |cart_product|
-            OrderItem.create(order: @order, product:cart_product.product, quantity:cart_product.quantity)
-        end
+        session[:address] = params[:address]
+        # byebug
+        # current_user.cart.cart_products.each do |cart_product|
+        #     OrderItem.create(order: @order, product:cart_product.product, quantity:cart_product.quantity)
+        # end
         redirect_to payment_form_order_path(@order)
       end
 
@@ -43,6 +45,7 @@ include CustomAuthorization
 
     def process_payment
       @order = Order.find(params[:id])
+      @address = session[:address]
       stripe_token = params[:stripe_token]
     
       begin
@@ -52,8 +55,9 @@ include CustomAuthorization
           source: stripe_token,
           description: 'Payment for order'
         )
-    
+
         # If the charge is successful cart will be deleted
+        @order.update(address: @address)
         current_user.cart.cart_products.destroy_all
         flash[:notice] = 'Order was successfully created and paid for.'
         redirect_to root_path
