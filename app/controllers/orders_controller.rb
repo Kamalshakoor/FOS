@@ -14,10 +14,9 @@ include CustomAuthorization
         @order = current_user.orders.build(total_price: calculate_total_price, status: 'pending')
         @order.save
         session[:address] = params[:address]
-        # byebug
-        # current_user.cart.cart_products.each do |cart_product|
-        #     OrderItem.create(order: @order, product:cart_product.product, quantity:cart_product.quantity)
-        # end
+        current_user.cart.cart_products.each do |cart_product|
+            OrderItem.create(order: @order, product:cart_product.product, quantity:cart_product.quantity)
+        end
         redirect_to payment_form_order_path(@order)
       end
 
@@ -73,25 +72,16 @@ include CustomAuthorization
 
       def submit_feedback
         order_id = params[:order_id]
-        # Debugging: Print the order_id to check its value
-        puts "Order ID: #{order_id}"
-       
       
         # Find the specific OrderItem associated with the given order_id
         order_item = OrderItem.find_by(order_id: order_id)
       
-        # Debugging: Print order_item to check if it's found
-        puts "Order Item: #{order_item.inspect}"
-        # byebug
-        # Update the rating and comment for all order items
-        # order_item.rating = params[:rating]
-        # order_item.comment = params[:comment]
-        # byebug
-        #   flash[:notice]= "Something went wrong!"
-        #   redirect_to root_path
-        
-
-
+        if order_item.update(rating: params[:rating], comment: params[:comment])
+          redirect_to root_path, notice: "Rating and comment submitted successfully."
+        else
+          flash[:notice] = "Something went wrong!"
+          redirect_to root_path
+        end
       end
 
 
