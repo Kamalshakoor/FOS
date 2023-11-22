@@ -60,8 +60,15 @@
           <p class="card-text">
             <b>Total:</b> <%= number_to_currency(@cart.cart_products.sum { |cart_product| cart_product.quantity * cart_product.product.price } + 0.0) %>
           </p>
-          <!-- Total (subtotal + tax) -->
-          <%= link_to 'Proceed to Checkout', orders_path, class: 'btn btn-outline-info btn-block form-control', method: :post %>
+           <%= form_tag orders_path, method: :post do %>
+            <div class="form-group mb-3">
+              <%= label_tag 'address', 'Address:', class: 'form-label' %>
+              <%= text_field_tag 'address', nil, class: 'form-control', placeholder:'Address here...', required: true %>
+            </div>
+
+            <!-- Total (subtotal + tax) -->
+            <%= submit_tag 'Proceed to Checkout', class: 'btn btn-outline-info btn-block form-control' %>
+          <% end %>
         </div>
       </div>
     </div>
