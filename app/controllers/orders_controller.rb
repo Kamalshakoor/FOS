@@ -76,16 +76,19 @@ include CustomAuthorization
         # Find the specific OrderItem associated with the given order_id
         order_item = OrderItem.find_by(order_id: order_id)
       
-        if order_item.update(rating: params[:rating], comment: params[:comment])
-          redirect_to root_path, notice: "Rating and comment submitted successfully."
-        else
-          flash[:notice] = "Something went wrong!"
+        # Check if the order_item already has a rating greater than zero
+        if order_item.rating && order_item.rating > 0
+          flash[:notice] = "You have already submitted a rating for this order."
           redirect_to root_path
+        else
+          if order_item.update(rating: params[:rating], comment: params[:comment])
+            redirect_to root_path, notice: "Rating and comment submitted successfully."
+          else
+            flash[:notice] = "Something went wrong!"
+            redirect_to root_path
+          end
         end
-      end
-
-
-
+      end      
 
 
 

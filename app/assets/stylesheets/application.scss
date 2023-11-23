@@ -77,6 +77,31 @@ body {
   
   
 
+  // css for rating page starts from here
+  /* Style for the hidden radio inputs */
+.hidden-radio {
+  display: none;
+}
+
+/* Style for the rating circles */
+.rating-circle {
+  width: 40px;
+  height: 40px;
+  background-color: #f0f0f0; /* Background color of the circle */
+  border-radius: 50%; /* Make it a circle */
+  text-align: center;
+  line-height: 40px; /* Vertically center the text */
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s; /* Add a smooth transition effect */
+}
+
+/* Style for the rating circle when selected */
+.rating-option input[type="radio"]:checked + .rating-circle {
+  background-color: #ffc107; /* Change the background color when selected */
+}
+
+
 @media only screen and (max-width: 912px) {
     .products{
         margin-top: 0vh;
