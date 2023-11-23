@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   resources :staff, only: [:index, :new, :create, :destroy]
   resources :categories
   post '/cart/add_to_cart/:product_id', to: 'cart#add_to_cart', as: 'add_to_cart'
+  post '/cart/update_cart_quantity/', to: 'cart#update_cart_quantity', as:'update_cart_quantity'
   get '/cart', to: 'cart#show_cart', as: 'cart'
   delete '/cart/:id', to: 'cart#destroy', as: 'delete_cart_item'
 

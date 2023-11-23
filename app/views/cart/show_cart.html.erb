@@ -1,4 +1,4 @@
-<div class="container mt-5">
+<div class="container mt-5 mb-3">
   <div class="row">
     <div class="col-md-8 mb-2">
       <div class="table-responsive shadow py-4 px-3">
@@ -27,7 +27,13 @@
                 <tr>
                   <td><%= image_tag product.image, class: 'w-50 border' %></td>
                   <td><%= product.name %></td>
-                  <td><%= cart_product.quantity %></td>
+                  <td>
+                   <button class="btn btn-sm btn-secondary" onclick="changeQuantity(<%= product.id %>, -1)">-</button>
+                    <!-- Quantity display -->
+                    <span id="quantity-<%= product.id %>"><%= cart_product.quantity %></span>
+                    <!-- Plus button -->
+                    <button class="btn btn-sm btn-primary" onclick="changeQuantity(<%= product.id %>, 1)">+</button>
+                  </td>
                   <td><%= number_to_currency(product.price) %></td>
                   <td>
                     <%= link_to 'Remove', delete_cart_item_path(product), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm' %>
@@ -47,10 +53,10 @@
         </div>
         <div class="card-body">
           <p class="card-text">
-            <b>Total Items:</b> <%= @cart.cart_products.sum(:quantity) %>
+            <b>Total Items:</b> <p id='total-items'><%= @cart.cart_products.sum(:quantity) %></p>
           </p>
           <p class="card-text">
-            <b>Subtotal:</b> <%= number_to_currency(@cart.cart_products.sum { |cart_product| cart_product.quantity * cart_product.product.price }) %>
+            <b>Subtotal:</b><span id='subtotal'><%= number_to_currency(@cart.cart_products.sum { |cart_product| cart_product.quantity * cart_product.product.price }) %></span>
           </p>
           <p class="card-text">
             <b>Tax (0%):</b> <%= number_to_currency(0.0) %>
@@ -58,7 +64,7 @@
           <!-- Tax value (0%) -->
           <hr>
           <p class="card-text">
-            <b>Total:</b> <%= number_to_currency(@cart.cart_products.sum { |cart_product| cart_product.quantity * cart_product.product.price } + 0.0) %>
+            <b>Total:</b> <span id='total'><%= number_to_currency(@cart.cart_products.sum { |cart_product| cart_product.quantity * cart_product.product.price } + 0.0) %></span>
           </p>
            <%= form_tag orders_path, method: :post do %>
             <div class="form-group mb-3">
@@ -74,3 +80,40 @@
     </div>
   </div>
 </div>
+
+
+<script>
+  function changeQuantity(ProductId, delta) {
+    const quantityElement = document.querySelector(`#quantity-${ProductId}`);
+    // console.log(`productId: ${ProductId}`);
+    // console.log(`quantityElement: ${quantityElement}`);
+    const currentQuantity = parseInt(quantityElement.textContent);
+    const newQuantity = currentQuantity + delta;
+
+    if (newQuantity >= 1) {
+      // Update the quantity on the frontend
+      quantityElement.textContent = newQuantity;
+      // Send an AJAX request to update the quantity in the backend
+      updateCart(ProductId, newQuantity);
+    }
+  }
+function updateCart(ProductId, newQuantity) {
+  $.ajax({
+    type: 'POST',
+    url: '<%= update_cart_quantity_path %>',
+    data: { product_id: ProductId, quantity: newQuantity },
+    beforeSend: function(xhr) {
+    xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
+  },
+    success: function (response) {
+      // Update the cart information in the view
+      $('#total-items').text(response.total_items);
+      $('#subtotal').text(response.subtotal);
+      $('#tax').text(response.tax);
+      $('#total').text(response.total);
+    },
+    error: function (error) {
+    }
+  });
+}
+</script>

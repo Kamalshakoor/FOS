@@ -35,6 +35,32 @@ before_action :authenticate_user!
         end
     end
 
+    def update_cart_quantity
+      product = Product.find_by(id: params[:product_id])
+      cart_product = current_user.cart.cart_products.find_by(product_id: product.id)
+  
+      if cart_product
+        new_quantity = params[:quantity].to_i
+        cart_product.update(quantity: new_quantity)
+         # Fetch updated cart information
+        total_items = current_user.cart.cart_products.sum(:quantity)
+        subtotal = current_user.cart.cart_products.sum { |cp| cp.quantity * cp.product.price }
+        tax = 0.0 # Adjust the tax calculation as needed
+        total = subtotal + tax
+
+        render json: {
+          success: true,
+          message: 'Quantity updated successfully.',
+          total_items: total_items,
+          subtotal: subtotal,
+          tax: tax,
+          total: total
+        }
+      else
+        render json: { success: false, message: 'Cart product not found.' }
+      end
+    end
+
     def destroy
         @product = Product.find(params[:id])
         @cart = current_user.cart
