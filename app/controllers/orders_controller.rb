@@ -73,22 +73,29 @@ include CustomAuthorization
       def submit_feedback
         order_id = params[:order_id]
       
-        # Find the specific OrderItem associated with the given order_id
-        order_item = OrderItem.find_by(order_id: order_id)
+        # Find all the OrderItems associated with the given order_id
+        order_items = OrderItem.where(order_id: order_id)
       
-        # Check if the order_item already has a rating greater than zero
-        if order_item.rating && order_item.rating > 0
-          flash[:notice] = "You have already submitted a rating for this order."
+        if order_items.empty?
+          flash[:notice] = "No order items found for the given order ID."
           redirect_to root_path
         else
-          if order_item.update(rating: params[:rating], comment: params[:comment])
-            redirect_to root_path, notice: "Rating and comment submitted successfully."
-          else
-            flash[:notice] = "Something went wrong!"
+          # Check if any of the order items already have a rating greater than zero
+          if order_items.any? { |item| item.rating && item.rating > 0 }
+            flash[:notice] = "You have already submitted a rating for one or more order items in this order."
             redirect_to root_path
+          else
+            # Update the ratings and comments for all order items in the order
+            if order_items.update_all(rating: params[:rating], comment: params[:comment])
+              redirect_to root_path, notice: "Ratings and comments submitted successfully for all order items."
+            else
+              flash[:notice] = "Something went wrong!"
+              redirect_to root_path
+            end
           end
         end
-      end      
+      end
+      
 
 
 
