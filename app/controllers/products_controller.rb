@@ -14,8 +14,35 @@ class ProductsController < ApplicationController
         @pagy, @products = pagy(Product.all.order('created_at DESC'), items: 10)
     end
     
-    def show 
+    def show
         @same_category_product = Product.where(category_id: @product.category).order("RANDOM()").limit(3)
+        @order_items = @product.order_items.includes(order: :user) # Include the 'user' association
+      
+        @ratings_with_users = []
+      
+        # Iterate through the associated order items
+        @order_items.each do |order_item|
+          if order_item.rating.present?
+            # Add both the rating and the associated user's username to the array
+            @ratings_with_users << { rating: order_item.rating, username: order_item.order.user.name }
+          end
+        end
+      
+        # @ratings_with_users now contains an array of ratings with associated usernames
+      
+        @comments = [] # Initialize comments array
+        # Iterate through the associated order items
+        @order_items.each do |order_item|
+          if order_item.comment.present?
+            @comments << order_item.comment
+          end
+        end
+      
+      
+
+
+
+
         # puts @same_category_product.inspect
     end
     def new 

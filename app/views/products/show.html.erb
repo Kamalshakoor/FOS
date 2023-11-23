@@ -21,8 +21,35 @@
           </div>
         </div>
       </div>
-      <div class="row mt-3">
-      <h3>You may Like them</h3>
+     <div class="row mt-5">
+    <h5>What Our Customers Say About Us:</h5>
+    
+       <% @order_items.each do |order_item| %>
+        <div class='shadow mb-3'>
+        <% if order_item.rating.present? %>
+        <strong><%= order_item.order.user.name %>:</strong> 
+          <div class="rating">
+            <% (1..5).each do |i| %>
+              <% if i <= order_item.rating %>
+                <span class="fa fa-star filled mb-2"></span>
+              <% else %>
+                <span class="fa fa-star"></span>
+              <% end %>
+            <% end %>
+          </div>
+          <% if order_item.comment.present? %>
+            <p> <%= order_item.comment %></p>
+          <% end %>
+        <% end %>
+        </div>
+      <% end %>
+     
+
+
+      <hr />
+
+
+      <h3 class='mt-5'>You may Like them</h3>
       <% @same_category_product.each do |product| %>
         <div class="col-md-4">
              <div class="card shadow border">

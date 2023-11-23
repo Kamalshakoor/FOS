@@ -1,0 +1,32 @@
+<div class="container my-5">
+  <div class="row">
+    <div class="col-md-6 offset-md-3 shadow py-4">
+      <%= form_with(model: @order_item, url: submit_feedback_order_path(order_id: @order.id), method: :post) do |f| %>
+        <!-- Display number-based rating options -->
+        <h5 class='text-center'>Leave your Feedback!</h5>
+        <div class="rating-options text-center">
+          <% (1..5).each do |rating_value| %>
+            <label class="rating-option">
+              <input type="radio" name="rating" value="<%= rating_value %>">
+              <span class="rating-circle">
+                <%= rating_value %>
+              </span>
+            </label>
+          <% end %>
+        </div>
+      <%= hidden_field_tag 'order_id', @order.id %>
+
+        <!-- Text area for the comment -->
+        <div class="form-group mb-3">
+          <%= f.label :comment, "Comment" %>
+          <%= f.text_area :comment, class: "form-control" %>
+        </div>
+
+        <!-- Submit button -->
+        <div class="actions">
+          <%= f.submit "Submit", class: "btn btn-outline-primary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

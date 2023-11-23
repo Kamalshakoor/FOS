@@ -60,6 +60,22 @@ body {
   }
 
 
+// css for stars on detail page of products
+
+.rating {
+    font-size: 12px; /* Adjust the font size as needed */
+  }
+  
+  .fa-star {
+    color: #ccc; /* Color of empty star */
+    display: inline-block;
+  }
+  
+  .fa-star.filled {
+    color: gold; /* Color of filled star */
+  }
+  
+  
 
 @media only screen and (max-width: 912px) {
     .products{
