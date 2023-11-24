@@ -28,7 +28,7 @@
                    <%= link_to cart_path do %>
                         <i class="fa fa-shopping-cart fa-2x position-relative">
                             <% if current_user.cart.present? && current_user.cart.cart_products.present?  %>
-                                <span class="position-absolute translate-middle" style="width: 10px; height: 10px; background-color: red; border-radius: 50%; right: -6px;"></span>
+                                <span class="position-absolute translate-middle counting" style=""><%= current_user.cart.cart_products.count %></span>
                             <% end %>
                         </i>
                     <% end %>
