@@ -20,7 +20,13 @@
               <td><%= order.status %></td>
               <td>
                 <% if order.completed? %> <!-- Check if the order is completed -->
-                  <%= link_to "Give Feedback", feedback_order_path(id: order.id), class: "btn btn-primary" %>
+                  <% if order.order_items.any? { |item| item.rating.present? } %> <!-- Check if any order item has a rating -->
+                    <!-- Display a muted or disabled button -->
+                    <button class="btn btn-secondary" disabled>Feedback Given</button>
+                  <% else %>
+                    <!-- Display the "Give Feedback" button -->
+                    <%= link_to "Give Feedback", feedback_order_path(id: order.id), class: "btn btn-primary" %>
+                  <% end %>
                 <% end %>
               </td>
             </tr>
