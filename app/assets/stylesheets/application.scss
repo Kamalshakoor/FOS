@@ -22,6 +22,21 @@ body {
     display: flex;
     flex-direction: column;
   }
+// cart css starts here
+
+.counting{
+  color: white;
+  font-size: 12px;
+  padding-top: 2px;
+  padding-left: 4px;
+  font-family: 'Courier New', Courier, monospace;
+  width: 15px; 
+  height: 15px; 
+  background-color: red; 
+  border-radius: 50%; 
+  z-index: 1;
+}
+
 .hero-section {
     background: linear-gradient(to bottom, #FF5733, #FF8C42); /* Gradient background */
     color: #fff;
