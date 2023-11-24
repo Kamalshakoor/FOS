@@ -59,6 +59,7 @@ include CustomAuthorization
         @order.update(address: @address)
         current_user.cart.cart_products.destroy_all
         flash[:notice] = 'Order was successfully created and paid for.'
+        OrderMailer.order_placed_email(current_user, @order).deliver_now
         redirect_to root_path
       rescue Stripe::CardError => e
         flash[:alert] = e.message
