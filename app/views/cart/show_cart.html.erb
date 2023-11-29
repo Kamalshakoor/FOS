@@ -64,7 +64,7 @@
           <!-- Tax value (0%) -->
           <hr>
           <p class="card-text">
-            <b>Total:</b> <span id='total'><%= number_to_currency(@cart.cart_products.sum { |cart_product| cart_product.quantity * cart_product.product.price } + 0.0) %></span>
+            <b>Total: </b> <span id='total'><%= number_to_currency(@cart.cart_products.sum { |cart_product| cart_product.quantity * cart_product.product.price } + 0.0) %></span>
           </p>
            <%= form_tag orders_path, method: :post do %>
             <div class="form-group mb-3">

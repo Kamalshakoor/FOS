@@ -57,15 +57,15 @@ ActiveRecord::Schema.define(version: 2023_11_22_112325) do
     t.index ["user_id"], name: "index_carts_on_user_id"
   end
 
-  create_table "carts_products", force: :cascade do |t|
-    t.integer "cart_id", null: false
-    t.integer "product_id", null: false
-    t.integer "quantity", default: 1
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["cart_id"], name: "index_carts_products_on_cart_id"
-    t.index ["product_id"], name: "index_carts_products_on_product_id"
-  end
+  # create_table "carts_products", force: :cascade do |t|
+  #   t.integer "cart_id", null: false
+  #   t.integer "product_id", null: false
+  #   t.integer "quantity", default: 1
+  #   t.datetime "created_at", precision: 6, null: false
+  #   t.datetime "updated_at", precision: 6, null: false
+  #   t.index ["cart_id"], name: "index_carts_products_on_cart_id"
+  #   t.index ["product_id"], name: "index_carts_products_on_product_id"
+  # end
 
   create_table "categories", force: :cascade do |t|
     t.string "name"
@@ -73,17 +73,17 @@ ActiveRecord::Schema.define(version: 2023_11_22_112325) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "feedbacks", force: :cascade do |t|
-    t.integer "order_id"
-    t.integer "product_id"
-    t.integer "user_id", null: false
-    t.integer "value"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["order_id"], name: "index_feedbacks_on_order_id"
-    t.index ["product_id"], name: "index_feedbacks_on_product_id"
-    t.index ["user_id"], name: "index_feedbacks_on_user_id"
-  end
+  # create_table "feedbacks", force: :cascade do |t|
+  #   t.integer "order_id"
+  #   t.integer "product_id"
+  #   t.integer "user_id", null: false
+  #   t.integer "value"
+  #   t.datetime "created_at", precision: 6, null: false
+  #   t.datetime "updated_at", precision: 6, null: false
+  #   t.index ["order_id"], name: "index_feedbacks_on_order_id"
+  #   t.index ["product_id"], name: "index_feedbacks_on_product_id"
+  #   t.index ["user_id"], name: "index_feedbacks_on_user_id"
+  # end
 
   create_table "order_items", force: :cascade do |t|
     t.integer "order_id", null: false
@@ -117,17 +117,17 @@ ActiveRecord::Schema.define(version: 2023_11_22_112325) do
     t.index ["category_id"], name: "index_products_on_category_id"
   end
 
-  create_table "ratings", force: :cascade do |t|
-    t.integer "order_id", null: false
-    t.integer "user_id", null: false
-    t.integer "product_id", null: false
-    t.integer "value"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["order_id"], name: "index_ratings_on_order_id"
-    t.index ["product_id"], name: "index_ratings_on_product_id"
-    t.index ["user_id"], name: "index_ratings_on_user_id"
-  end
+  # create_table "ratings", force: :cascade do |t|
+  #   t.integer "order_id", null: false
+  #   t.integer "user_id", null: false
+  #   t.integer "product_id", null: false
+  #   t.integer "value"
+  #   t.datetime "created_at", precision: 6, null: false
+  #   t.datetime "updated_at", precision: 6, null: false
+  #   t.index ["order_id"], name: "index_ratings_on_order_id"
+  #   t.index ["product_id"], name: "index_ratings_on_product_id"
+  #   t.index ["user_id"], name: "index_ratings_on_user_id"
+  # end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false

@@ -10,9 +10,19 @@
                     <h6 class="card-subtitle mb-2 text-info "><%= product.price %>$</h6>
                     <p class="card-text"><%= truncate(product.description, length: 100) %></p>
                   </div>
-                  <div class='card-footer space-around'>
-                    <%= link_to "Show Detail", product_path(product),class:'btn btn-outline-primary' %>
-                  </div>
+                   <div class='card-footer space-around d-flex justify-content-between align-items-center'>
+                      <%= link_to "Show Detail", product_path(product), class:'btn btn-outline-primary' %> 
+                      <% average_rating = product.order_items.average(:rating).to_f %>
+                      <% if average_rating.nil? %>
+                        No ratings yet.
+                      <% else %>
+                        <% integer_rating = average_rating.to_i %>
+                        <span class="text-warning">
+                          <%= "★" * integer_rating %>
+                          (<%= integer_rating %>)
+                        </span>
+                      <% end %>
+                    </div>
                 </div>
             </div>
         <% end %>
