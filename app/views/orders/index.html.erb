@@ -121,7 +121,52 @@
             <tbody>
               <% @in_progress_orders.each do |order| %>
               <tr>
-                <td><%= order.id %></td>
+                <td>
+                  <!-- Button to open the order details modal -->
+                  <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#detailModal<%= order.id %>">
+                    <%= order.id %>                  
+                  </button>
+
+                  <!-- Modal for order details -->
+                  <div class="modal fade" id="detailModal<%= order.id %>" tabindex="-1" aria-labelledby="detailModalLabel<%= order.id %>" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="detailModalLabel<%= order.id %>">Order Details</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                         <div class="modal-body">
+                          <div class="row">                
+                            <p><strong>Order Number:</strong> <%= order.id %></p>
+                            <div class="col-md-12">
+                              <table class="table">
+                                <thead>
+                                  <tr>
+                                    <th>Image</th>
+                                    <th>Name</th>
+                                    <th>Quantity</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <% order.order_items.each do |order_item| %>
+                                    <tr>
+                                      <td><%= image_tag order_item.product.image, class: 'img-thumbnail', width: '50' %></td>
+                                      <td><%= order_item.product.name %></td>
+                                      <td><%= order_item.quantity %></td>
+                                    </tr>
+                                  <% end %>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
                 <td><%= order.total_price %></td>
                <td>
                     <!-- Status dropdown for updating the order status -->
@@ -165,7 +210,52 @@
             <tbody>
               <% @completed_orders.each do |order| %>
               <tr>
-                <td><%= order.id %></td>
+                <td>
+                  <!-- Button to open the order details modal -->
+                  <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#detailModal<%= order.id %>">
+                    <%= order.id %>                  
+                  </button>
+
+                  <!-- Modal for order details -->
+                  <div class="modal fade" id="detailModal<%= order.id %>" tabindex="-1" aria-labelledby="detailModalLabel<%= order.id %>" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="detailModalLabel<%= order.id %>">Order Details</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                         <div class="modal-body">
+                          <div class="row">                
+                            <p><strong>Order Number:</strong> <%= order.id %></p>
+                            <div class="col-md-12">
+                              <table class="table">
+                                <thead>
+                                  <tr>
+                                    <th>Image</th>
+                                    <th>Name</th>
+                                    <th>Quantity</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <% order.order_items.each do |order_item| %>
+                                    <tr>
+                                      <td><%= image_tag order_item.product.image, class: 'img-thumbnail', width: '50' %></td>
+                                      <td><%= order_item.product.name %></td>
+                                      <td><%= order_item.quantity %></td>
+                                    </tr>
+                                  <% end %>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
                 <td><%= order.total_price %></td>
                 <td><%= order.status %></td>
               </tr>
